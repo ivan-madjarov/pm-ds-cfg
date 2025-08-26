@@ -1,0 +1,13 @@
+# Ignore Windows system files
+Thumbs.db
+Desktop.ini
+
+# Ignore PowerShell/Batch backup files
+*.bak
+*.tmp
+
+# Ignore log files
+*.log
+
+# Ignore VS Code settings
+.vscode/
