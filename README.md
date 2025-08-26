@@ -27,4 +27,13 @@ USE THE FOLLOWING INFORMATION TO CONFIGURE
 Domain NetBios Name: MITEL
 Computer Name: SESAP
 IP Address: 10.10.10.10
+## Debug Output
+
+The script now supports a debug output flag. To enable debug output, set the following line near the top of `collect-server-info.bat`:
+
+```
+set "DEBUG=1"
+```
+
+When `DEBUG=1`, raw values for domain, NetBIOS domain, computer name, IP address, and USERDOMAIN will be printed. Set `DEBUG=0` to suppress debug output.
 ```
