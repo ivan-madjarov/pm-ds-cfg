@@ -12,7 +12,22 @@ for /f "delims=" %%A in ('powershell -NoProfile -Command "Get-NetIPAddress -Addr
 REM Fallbacks if PowerShell fails
 if not defined ComputerName set "ComputerName=%COMPUTERNAME%"
 if not defined DomainInfo if not "%USERDOMAIN%"=="" set "DomainInfo=DOMAIN:%USERDOMAIN%"
-if not defined NetBiosDomain if not "%USERDOMAIN%"=="" set "NetBiosDomain=%USERDOMAIN%"
+REM Only attempt a fallback for NetBiosDomain if we actually appear to be domain joined.
+REM Using USERDOMAIN on workgroup machines incorrectly returns the COMPUTERNAME.
+if not defined NetBiosDomain (
+    set "_tmpDomainInfo=%DomainInfo%"
+    for /f "tokens=1* delims=:" %%I in ("%_tmpDomainInfo%") do (
+        set "_diType=%%I"
+        set "_diName=%%J"
+    )
+    setlocal enabledelayedexpansion
+    if /i "!_diType!"=="DOMAIN" (
+        endlocal & set "NetBiosDomain=%_diName%"
+    ) else (
+        REM Workgroup case: use the workgroup name (after the colon) or default to WORKGROUP
+        if "!_diName!"=="" ( endlocal & set "NetBiosDomain=WORKGROUP" ) else ( endlocal & set "NetBiosDomain=%_diName%" )
+    )
+)
 if not defined IPAddress set "IPAddress=Not detected"
 
 REM Debug output flag
