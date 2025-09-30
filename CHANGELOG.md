@@ -2,6 +2,9 @@
 
 # Changelog
 
+## [1.1.1] - 2025-09-30
+- Fix: Correct NetBIOS/workgroup detection so workgroup systems no longer repeat the computer name as Domain NetBios Name.
+
 ## [1.1.0] - 2025-08-26
 - Added DEBUG flag to `collect-server-info.bat` to control debug output.
 - Improved NetBiosDomain output logic: always prioritizes cleaned NetBiosDomain if present.
